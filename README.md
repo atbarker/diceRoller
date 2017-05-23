@@ -8,12 +8,12 @@ Supports dice sizes from d2 to d100/percentile.
 Usage: diceroller.py [-h] [-v] roll
 
 
-Options:
-    -h       Help, display help
-    -v       Verbose, prints the raw die results and the results of intermittent steps.
+Options: 
+	-h       Help, display help.      
+	-v       Verbose, prints the raw die results and the results of intermittent steps.  
     
-Roll Syntax:
-    Example: 3d10x2+1
-      3d10, roll 3d10 dice
-      x2,   multiply the result by 2
-      +1,   add a plus 1 modifier
+Roll Syntax: 
+    Example: 3d10x2+1  
+	3d10, roll 3d10 dice   
+	x2,   multiply the result by 2   
+	+1,   add a plus 1 modifier      

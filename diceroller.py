@@ -33,30 +33,34 @@ def roll(number, dieType, multMod, addMod, verbose):
 	total += addMod
 	return total
 
-parser = argparse.ArgumentParser(description='process options')
-parser.add_argument('roll', metavar='roll', type=str, help='dice to be rolled with modifiers')
-parser.add_argument('-v', action='store_true', help = 'verbose mode, prints values for each die rolled')
+def main():
+	parser = argparse.ArgumentParser(description='process options')
+	parser.add_argument('roll', metavar='roll', type=str, help='dice to be rolled with modifiers')
+	parser.add_argument('-v', action='store_true', help = 'verbose mode, prints values for each die rolled')
 
-args = parser.parse_args()
+	args = parser.parse_args()
 
-line = args.roll
+	line = args.roll
 
-#split the string using regular expressions and delimiters using the re.split() method
-rollFields = re.split(r'[dx+]\s*',line)
-rollFields = map(int, rollFields)
-if 'x' in line and '+' in line:
-	pass
-elif 'x' in line:
-	rollFields.append(0)
-elif '+' in line:
-	rollFields.append(rollFields[2])
-	rollFields[2] = 1
-else:
-	rollFields.append(1)
-	rollFields.append(0)
+	#split the string using regular expressions and delimiters using the re.split() method
+	rollFields = re.split(r'[dx+]\s*',line)
+	rollFields = map(int, rollFields)
+	if 'x' in line and '+' in line:
+		pass
+	elif 'x' in line:
+		rollFields.append(0)
+	elif '+' in line:
+		rollFields.append(rollFields[2])
+		rollFields[2] = 1
+	else:
+		rollFields.append(1)
+		rollFields.append(0)
 
-#new object for the roll
-#print rollFields
-result = roll(rollFields[0],rollFields[1], rollFields[2], rollFields[3], args.v)
-print 'result: %d' % result
+	#new object for the roll
+	#print rollFields
+	result = roll(rollFields[0],rollFields[1], rollFields[2], rollFields[3], args.v)
+	print 'result: %d' % result
 
+
+if __name__ == "__main__":
+    main()

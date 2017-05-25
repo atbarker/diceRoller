@@ -50,8 +50,9 @@ def shell(args):
                 elif 'verbose\n' in line:
                         temp = args.v
                         args.v = not temp
-                #by default handle a roll     
-                else:
+                #by default handle a roll
+                #change to check if stuff matches the regex     
+                elif 'd' in line and 'x' in line:
                         rollFields = re.split(r'[dx+]\s*', line)
                         rollFields = map(int, rollFields)
 			if 'x' in line and '+' in line:
@@ -66,6 +67,9 @@ def shell(args):
 				rollFields.append(0)
 			result = roll(rollFields[0],rollFields[1], rollFields[2], rollFields[3], args.v)
 			print 'result: %d' % result
+                #print invalid warning
+                else:
+                        print 'Invalid input'
                 
 
 def main(args):

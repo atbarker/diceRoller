@@ -26,7 +26,7 @@ def roll(number, dieType, multMod, addMod, verbose):
                 if verbose:
 			print 'single die: %d' % randRoll
 		total += randRoll
-        #print the raw value of rolls
+        #print the raw value of rolls if verbose is on
         if verbose:
 		print 'die face sum: %d' % total
         if multMod != 0:
@@ -38,15 +38,22 @@ def roll(number, dieType, multMod, addMod, verbose):
 
 def shell(args):
 	status = SHELL_STATUS_RUN
+        #shell loop
         while status == SHELL_STATUS_RUN:
         	sys.stdout.write('> ')
                 sys.stdout.flush()
                 line = sys.stdin.readline()
-		rollFields = re.split(r'[dx+]\s*',line)
-		rollFields = map(int, rollFields)
-                if line == 'quit\n':
-                	break;
+                #exit the shell
+                if 'quit\n' in line or 'exit\n' in line:
+                	status = SHELL_STATUS_STOP
+                #toggle verbose while shell is running
+                elif 'verbose\n' in line:
+                        temp = args.v
+                        args.v = not temp
+                #by default handle a roll     
                 else:
+                        rollFields = re.split(r'[dx+]\s*', line)
+                        rollFields = map(int, rollFields)
 			if 'x' in line and '+' in line:
 				pass
 			elif 'x' in line:
@@ -62,6 +69,8 @@ def shell(args):
                 
 
 def main(args):
+        #just start the shell
+        print("Welcome to diceroller.\n")
 	shell(args)
 
 

@@ -52,8 +52,12 @@ def shell(args):
                         args.v = not temp
                 #by default handle a roll
                 #change to check if stuff matches the regex     
-                elif 'd' in line and 'x' in line:
+                else:
                         rollFields = re.split(r'[dx+]\s*', line)
+                        #debugging print statement
+                        #print rollFields
+                        if rollFields[0] == '':
+                                rollFields[0] = "1"
                         rollFields = map(int, rollFields)
 			if 'x' in line and '+' in line:
 				pass
@@ -68,8 +72,8 @@ def shell(args):
 			result = roll(rollFields[0],rollFields[1], rollFields[2], rollFields[3], args.v)
 			print 'result: %d' % result
                 #print invalid warning
-                else:
-                        print 'Invalid input'
+                #else:
+                #        print 'Invalid input'
                 
 
 def main(args):

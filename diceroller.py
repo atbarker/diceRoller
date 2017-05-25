@@ -36,6 +36,26 @@ def roll(number, dieType, multMod, addMod, verbose):
 	total += addMod
 	return total
 
+def parseRoll(verbose, line):
+	rollFields = re.split(r'[dx+]\s*', line)
+        #debugging print statement
+        #print rollFields
+        if rollFields[0] == '':
+                rollFields[0] = "1"
+        rollFields = map(int, rollFields)
+        if 'x' in line and '+' in line:
+		pass
+	elif 'x' in line:
+		rollFields.append(0)
+	elif '+' in line:
+		rollFields.append(rollFields[2])
+		rollFields[2] = 1
+	else:
+		rollFields.append(1)
+		rollFields.append(0)
+	result = roll(rollFields[0],rollFields[1], rollFields[2], rollFields[3], args.v)
+	return result
+
 def shell(args):
 	status = SHELL_STATUS_RUN
         #shell loop
@@ -53,24 +73,22 @@ def shell(args):
                 #by default handle a roll
                 #change to check if stuff matches the regex     
                 else:
-                        rollFields = re.split(r'[dx+]\s*', line)
-                        #debugging print statement
-                        #print rollFields
-                        if rollFields[0] == '':
-                                rollFields[0] = "1"
-                        rollFields = map(int, rollFields)
-			if 'x' in line and '+' in line:
-				pass
-			elif 'x' in line:
-				rollFields.append(0)
-			elif '+' in line:
-				rollFields.append(rollFields[2])
-				rollFields[2] = 1
-			else:
-				rollFields.append(1)
-				rollFields.append(0)
-			result = roll(rollFields[0],rollFields[1], rollFields[2], rollFields[3], args.v)
-			print 'result: %d' % result
+                        #multiple rolls in the same line
+                        result = 0
+                        if ';' in line:
+                                rollSerial = line.split(';')
+                                for each in rollSerial:
+                                	partial = parseRoll(args.v, each)
+                                        print "result: %d" % partial
+                        #multiple rolls to be added in same line
+                        if ' + ' in line:
+                                rollCombo = line.split(' + ')
+				for each in rollCombo:
+                                	result += parseRoll(args.v, each)
+                                        print "result: %d" % result
+                        else:
+                                result = parseRoll(args.v, line)
+                                print "result: %d" % result
                 #print invalid warning
                 #else:
                 #        print 'Invalid input'
@@ -78,7 +96,7 @@ def shell(args):
 
 def main(args):
         #just start the shell
-        print("Welcome to diceroller.\n")
+        print("Welcome to dice roller.\n")
 	shell(args)
 
 
